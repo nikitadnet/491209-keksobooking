@@ -55,15 +55,8 @@ var filtesBlockParent = filters.parentNode;
 var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var adTemplate = document.querySelector('template').content.querySelector('.map__card');
 
-var getRandomIndex = function (values) {
-  var rand = Math.floor(Math.random() * values.length);
-  return rand;
-};
-
 var getRandomNumber = function (min, max) {
-  var randomNumber = min + Math.random() * (max + 1 - min);
-  randomNumber = Math.floor(randomNumber);
-  return randomNumber;
+  return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
 var getShuffleArrayElement = function (array) {
@@ -93,17 +86,17 @@ var createAds = function (titles, types, times, features, photos) {
   for (var i = 1; i <= maxCount; i++) {
     ad = {
       author: {
-        avatar: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'
+        avatar: 'img/avatars/user0' + i + '.png'
       },
       offer: {
-        title: titles[getRandomIndex(titles)],
+        title: titles[getRandomNumber(0, titles.length - 1)],
         address: getRandomNumber(1, 1000) + ', ' + getRandomNumber(1, 1000),
         price: getRandomNumber(1000, 1000000),
-        type: types[getRandomIndex(types)],
+        type: types[getRandomNumber(0, types.length - 1)],
         rooms: getRandomNumber(1, 5),
         guests: getRandomNumber(1, 100),
-        checkin: times[getRandomIndex(times)],
-        checkout: times[getRandomIndex(times)],
+        checkin: times[getRandomNumber(0, times.length - 1)],
+        checkout: times[getRandomNumber(0, times.length - 1)],
         features: getRandomValueInArray(features),
         description: '',
         photos: getShuffleArrayElement(photos)
