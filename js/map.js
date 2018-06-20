@@ -69,10 +69,10 @@ var getShuffleArrayElement = function (array) {
   return array;
 };
 
-var getRandomValueInArray = function (array) {
+var getRandomlengthArray = function (array) {
   var newArray = [];
 
-  for (var i = 1; i <= getRandomNumber(1, array.length - 1); i++) {
+  for (var i = 0; i <= getRandomNumber(1, array.length - 1); i++) {
     newArray.push(array[i]);
   }
   return newArray;
@@ -97,7 +97,7 @@ var createAds = function (titles, types, times, features, photos) {
         guests: getRandomNumber(1, 100),
         checkin: times[getRandomNumber(0, times.length - 1)],
         checkout: times[getRandomNumber(0, times.length - 1)],
-        features: getRandomValueInArray(features),
+        features: getRandomlengthArray(features),
         description: '',
         photos: getShuffleArrayElement(photos)
       },
