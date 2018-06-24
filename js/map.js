@@ -48,12 +48,18 @@ var HOUSE_TYPES = {
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 85;
+
 var map = document.querySelector('.map');
 var pinList = document.querySelector('.map__pins');
 var filters = document.querySelector('.map__filters-container');
 var filtesBlockParent = filters.parentNode;
 var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var adTemplate = document.querySelector('template').content.querySelector('.map__card');
+var inputAdress = document.querySelector('#address');
+var mainPin = document.querySelector('.map__pin--main');
+var mapPinsContainer = document.querySelector('.map__pins');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -76,6 +82,11 @@ var getRandomLengthArray = function (array) {
     newArray.push(array[i]);
   }
   return newArray;
+};
+
+var getElementIndex = function (element) {
+  var nodes = Array.prototype.slice.call(element.parentNode.children);
+  return nodes.indexOf(element);
 };
 
 var createAds = function (titles, types, times, features, photos) {
@@ -158,7 +169,29 @@ var renderAd = function (ad) {
 };
 
 var ads = createAds(TITLES, TYPES, TIMES, FEATURES, AD_PHOTOS);
-renderPins(ads);
-var initialAdElementIndex = 0;
-filtesBlockParent.insertBefore(renderAd(ads[initialAdElementIndex]), filters);
-map.classList.remove('map--faded');
+
+var adressHandler = function () {
+  var coordinateX = parseInt(mainPin.style.left, 10) + Math.round(MAIN_PIN_WIDTH / 2);
+  var coordinateY = parseInt(mainPin.style.top, 10) + Math.round(MAIN_PIN_HEIGHT / 2);
+  inputAdress.value = coordinateX + ',' + coordinateY;
+};
+
+var activePageHandler = function () {
+  var adForm = document.querySelector('.ad-form');
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+};
+
+mainPin.addEventListener('mouseup', function () {
+  activePageHandler();
+  adressHandler();
+  renderPins(ads);
+});
+
+mapPinsContainer.addEventListener('click', function (evt) {
+  var target = evt.target;
+  var mapPin = target.closest('.map__pin');
+  var index = getElementIndex(mapPin) - 2;
+  filtesBlockParent.insertBefore(renderAd(ads[index]), filters);
+});
+
