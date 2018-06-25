@@ -48,9 +48,6 @@ var HOUSE_TYPES = {
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
-var MAIN_PIN_WIDTH = 65;
-var MAIN_PIN_HEIGHT = 85;
-
 var map = document.querySelector('.map');
 var pinList = document.querySelector('.map__pins');
 var filters = document.querySelector('.map__filters-container');
@@ -60,6 +57,9 @@ var adTemplate = document.querySelector('template').content.querySelector('.map_
 var inputAdress = document.querySelector('#address');
 var mainPin = document.querySelector('.map__pin--main');
 var mapPinsContainer = document.querySelector('.map__pins');
+
+var MAIN_PIN_WIDTH = mainPin.offsetWidth;
+var MAIN_PIN_HEIGHT = mainPin.offsetHeight;
 
 var getRandomNumber = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -189,9 +189,9 @@ mainPin.addEventListener('mouseup', function () {
 });
 
 mapPinsContainer.addEventListener('click', function (evt) {
+  var excessElementsAmount = 2;
   var target = evt.target;
   var mapPin = target.closest('.map__pin');
-  var index = getElementIndex(mapPin) - 2;
+  var index = getElementIndex(mapPin) - excessElementsAmount;
   filtesBlockParent.insertBefore(renderAd(ads[index]), filters);
 });
-
