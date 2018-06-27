@@ -179,10 +179,29 @@ var activePageHandler = function () {
   adForm.classList.remove('ad-form--disabled');
 };
 
+var adFormFieldsets = document.querySelectorAll('.ad-form__element');
+
+var deactivationForm = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    var fieldset = adFormFieldsets[i];
+    fieldset.setAttribute('disabled', 'disabled');
+  }
+};
+
+deactivationForm();
+
+var activateForm = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    var fieldset = adFormFieldsets[i];
+    fieldset.removeAttribute('disabled');
+  }
+};
+
 mainPin.addEventListener('mouseup', function () {
   activePageHandler();
   adressHandler();
   renderPins(ads);
+  activateForm();
 });
 
 var deleteCard = function () {
