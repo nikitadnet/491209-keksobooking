@@ -58,9 +58,6 @@ var inputAdress = document.querySelector('#address');
 var mainPin = document.querySelector('.map__pin--main');
 var mapPinsContainer = document.querySelector('.map__pins');
 
-var MAIN_PIN_WIDTH = mainPin.offsetWidth;
-var MAIN_PIN_HEIGHT = mainPin.offsetHeight;
-
 var getRandomNumber = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
@@ -171,8 +168,8 @@ var renderAd = function (ad) {
 var ads = createAds(TITLES, TYPES, TIMES, FEATURES, AD_PHOTOS);
 
 var adressHandler = function () {
-  var coordinateX = parseInt(mainPin.style.left, 10) + Math.round(MAIN_PIN_WIDTH / 2);
-  var coordinateY = parseInt(mainPin.style.top, 10) + Math.round(MAIN_PIN_HEIGHT / 2);
+  var coordinateX = parseInt(mainPin.style.left, 10) + Math.round(mainPin.offsetWidth / 2);
+  var coordinateY = parseInt(mainPin.style.top, 10) + Math.round(mainPin.offsetHeight / 2);
   inputAdress.value = coordinateX + ',' + coordinateY;
 };
 
@@ -188,10 +185,24 @@ mainPin.addEventListener('mouseup', function () {
   renderPins(ads);
 });
 
+var deleteCard = function () {
+  var сard = map.querySelector('.map__card');
+  if (!(сard === null)) {
+    map.removeChild(сard);
+  }
+};
+
 mapPinsContainer.addEventListener('click', function (evt) {
   var excessElementsAmount = 2;
   var target = evt.target;
   var mapPin = target.closest('.map__pin');
   var index = getElementIndex(mapPin) - excessElementsAmount;
   filtesBlockParent.insertBefore(renderAd(ads[index]), filters);
+
+  var popupCloseButton = map.querySelector('.popup__close');
+  popupCloseButton.addEventListener('click', function () {
+    deleteCard();
+  });
 });
+
+
