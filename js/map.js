@@ -211,12 +211,16 @@ var activateForm = function () {
   }
 };
 
-mainPin.addEventListener('mouseup', function () {
+var activeMap = function () {
   activePageHandler();
   adressHandler();
   renderPins(adsData);
   activateForm();
-});
+
+  mainPin.removeEventListener('mouseup', activeMap);
+};
+
+mainPin.addEventListener('mouseup', activeMap);
 
 var deleteCard = function () {
   var сard = map.querySelector('.map__card');
@@ -227,20 +231,24 @@ var deleteCard = function () {
 
 var excessElementsAmount = 2;
 
-mapPinsContainer.addEventListener('click', function (evt) {
+var openAndCloseAdHandler = function (evt) {
   var target = evt.target;
   var mapPin = target.closest('.map__pin');
-  var index = getElementIndex(mapPin) - excessElementsAmount;
 
-  if (evt.target.classList.contains('map__pin--main')) {
+  if (evt.target.closest('.map__pin--main') || !mapPin) {
     return;
   }
+
+  var index = getElementIndex(mapPin) - excessElementsAmount;
+
   filtesBlockParent.insertBefore(renderAd(adsData[index]), filters);
 
   var popupCloseButton = map.querySelector('.popup__close');
   popupCloseButton.addEventListener('click', function () {
     deleteCard();
   });
-});
+};
+
+mapPinsContainer.addEventListener('click', openAndCloseAdHandler);
 
 
